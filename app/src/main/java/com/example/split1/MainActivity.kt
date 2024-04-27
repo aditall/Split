@@ -9,11 +9,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Find the navigation controller
-        val navController: NavController =
-            Navigation.findNavController(this, R.id.nav_graph)
-        // Set the navigation graph
-        navController.setGraph(R.navigation.navigation)
     }
 }
