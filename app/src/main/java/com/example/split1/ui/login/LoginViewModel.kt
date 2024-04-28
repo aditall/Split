@@ -6,14 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.example.split1.data.LoginRepository
-
-import com.example.split1.R
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
-    private val _loginForm = MutableLiveData<LoginFormState>()
-    val loginFormState: LiveData<LoginFormState> = _loginForm
+    private val _loginSuccessfull = MutableLiveData<Boolean>()
+    val loginSuccessfull: LiveData<Boolean> = _loginSuccessfull
+
+    private val _loginFailed = MutableLiveData<Boolean>()
+    val loginFailed: LiveData<Boolean> = _loginFailed
 
     fun login(username: String, password: String) {
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -23,9 +24,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                     // Registration successful
                     val user = auth.currentUser
                     if (user != null) {
+                        _loginSuccessfull.value = true
                         Log.i("Login", "signInWithEmailAndPassword:success")
                     }
                 } else {
+                    _loginFailed.value = true
                     Log.i("Login", "Error")
                 }
             }
@@ -33,17 +36,17 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun updatePassword(password: String) {
         if (!isPasswordValid(password)) {
-            _loginForm.value = LoginFormState(loginState = R.string.invalid_password.toString(), loggedIn = false)
+            // TODO:
         } else {
-            _loginForm.value = LoginFormState(loginState = R.string.login_success.toString(), loggedIn = false)
+            // TODO:
         }
     }
 
     fun updateUsername(username: String) {
         if (!isUserNameValid(username)) {
-            _loginForm.value = LoginFormState(loginState = R.string.invalid_username.toString() ,loggedIn = false)
+            // TODO:
         } else {
-            _loginForm.value = LoginFormState(loginState = R.string.login_success.toString(), loggedIn = false)
+           // TODO:
         }
     }
 
