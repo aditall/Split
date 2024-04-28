@@ -7,7 +7,7 @@ import com.example.split1.data.model.LoggedInUser
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository(val dataSource: LoginDataSource) {
+class LoginRepository(val dataSource: LoginDataSource<Any>) {
 
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
@@ -30,10 +30,7 @@ class LoginRepository(val dataSource: LoginDataSource) {
     fun login(username: String, password: String): Result<LoggedInUser> {
         // handle login
         val result = dataSource.login(username, password)
-
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
-        }
+        result.getOrNull()?.let { setLoggedInUser(it) }
 
         return result
     }
