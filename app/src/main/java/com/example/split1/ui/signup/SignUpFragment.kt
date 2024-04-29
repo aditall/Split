@@ -58,13 +58,15 @@ class SignUpFragment : Fragment() {
         }
 
         binding.btnBackToMain.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_LoginFragment)
+            Navigation.findNavController(it)
+                .navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
         }
 
         binding.imgAvatar.setOnClickListener {
             (activity as MainActivity).requestPermission.launch(
                 PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
             )
         }
 
@@ -78,6 +80,13 @@ class SignUpFragment : Fragment() {
             Glide.with(this)
                 .load(uri)
                 .into(binding.imgAvatar);
+        }
+
+        signupViewModel.loginSuccessfull.observe(viewLifecycleOwner) {
+            if (it) {
+                Navigation.findNavController(binding.root)
+                    .navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+            }
         }
 
         return binding.root

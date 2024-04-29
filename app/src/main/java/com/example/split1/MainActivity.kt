@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 
 class MainActivity : AppCompatActivity() {
     var uriResult: MutableLiveData<Uri?> = MutableLiveData<Uri?>()
+    var isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val requestPermission =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {

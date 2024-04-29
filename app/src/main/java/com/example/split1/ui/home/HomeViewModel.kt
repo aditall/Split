@@ -1,4 +1,4 @@
-package com.example.split1
+package com.example.split1.ui.home
 
 import androidx.lifecycle.ViewModel
 

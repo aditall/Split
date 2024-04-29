@@ -2,6 +2,7 @@ package com.example.split1.ui.signup
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
@@ -16,6 +17,9 @@ class SignUpViewModel() : ViewModel() {
     private val profileImageRef =  Firebase.storage.reference.child("profileImages")
     val name: MutableLiveData<String> = MutableLiveData<String>()
     val ImageToShow: MutableLiveData<Uri?> = MutableLiveData<Uri?>()
+
+    private val _loginSuccessfull = MutableLiveData<Boolean>()
+    val loginSuccessfull: LiveData<Boolean> = _loginSuccessfull
     fun createUser(email: String, password: String, name: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -37,6 +41,8 @@ class SignUpViewModel() : ViewModel() {
                                 }
                             }
                     }
+
+                    _loginSuccessfull.value = true
                 } else {
                     // TODO:: Handle the error
                 }
