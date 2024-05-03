@@ -5,9 +5,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.split1.data.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.database.database
+import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 
 class SignUpViewModel() : ViewModel() {
@@ -40,6 +43,7 @@ class SignUpViewModel() : ViewModel() {
                                     // Handle the error
                                 }
                             }
+                        storeUserData(it.uid, it.email)
                     }
 
                     _loginSuccessfull.value = true
@@ -49,6 +53,16 @@ class SignUpViewModel() : ViewModel() {
             }
     }
 
+    // Function to store user data in Firestore
+    private fun storeUserData(userId: String?, email: String?) {
+        val db = Firebase.firestore
+
+        val userData = hashMapOf(
+            "userId" to userId
+        )
+
+        db.collection("users").document(email ?: "").set(userData)
+    }
     fun UplaodImage(imageUri: Uri) {
         val imageRef = profileImageRef.child(auth.currentUser?.uid ?: "")
         val uploadTask = imageRef.putFile(imageUri)

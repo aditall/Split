@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.split1.MainActivity
 import com.example.split1.R
 import com.example.split1.databinding.FragmentSignUpBinding
+import com.example.split1.ui.ImageUtil
 import com.example.split1.ui.login.LoginViewModel
 import com.example.split1.ui.login.LoginViewModelFactory
 
@@ -77,9 +78,7 @@ class SignUpFragment : Fragment() {
         }
 
         signupViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
-            Glide.with(this)
-                .load(uri)
-                .into(binding.imgAvatar);
+            ImageUtil().laodImage(uri, this, binding.imgAvatar)
         }
 
         signupViewModel.loginSuccessfull.observe(viewLifecycleOwner) {
