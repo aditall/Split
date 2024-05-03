@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/add_button" />
+    <include
+        android:id="@+id/fbtnAddSpace"
+        layout="@layout/add_button" />
 
     <include
         android:id="@+id/btnEditProfile"
@@ -28,7 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.39" />
+            app:layout_constraintVertical_bias="0.39"
+            tools:listitem="@layout/sapce_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

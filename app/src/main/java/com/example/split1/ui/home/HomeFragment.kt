@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.split1.adapters.SpaceAdapter
 import com.example.split1.data.model.Spaces
 import com.example.split1.databinding.FragmentHomeBinding
+import com.example.split1.ui.ImageUtil
+import com.example.split1.ui.login.LoginFragmentDirections
 
 class HomeFragment : Fragment() {
 
@@ -34,7 +37,19 @@ class HomeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        binding.
+        binding.btnEditProfile.editProfileButton.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(HomeFragmentDirections.actionHomeFragmentToEditProfileFragment())
+        }
+
+        homeViewModel.userPhotoUri.observe(viewLifecycleOwner) {
+            ImageUtil().laodImage(it, this, binding.btnEditProfile.editProfileButton)
+        }
+
+        binding.fbtnAddSpace.addSpaceButton.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(HomeFragmentDirections.actionHomeFragmentToSpaceFragment())
+        }
 
         return binding.root
     }
