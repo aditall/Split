@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs.kotlin'
+    id("kotlin-kapt")
 }
 
 android {
@@ -32,12 +33,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion
+    }
     buildFeatures {
         viewBinding true
     }
 }
 
 dependencies {
+    implementation libs.androidx.room.runtime
+    kapt(libs.androidx.room.compiler)
     implementation(platform(libs.firebase.bom))
     implementation(libs.google.firebase.auth)
     implementation libs.androidx.core.ktx
@@ -56,6 +62,10 @@ dependencies {
     implementation libs.androidx.legacy.support.v4
     implementation libs.androidx.fragment.ktx
     implementation libs.firebase.storage
+    implementation libs.firebase.firestore.ktx
+    implementation libs.firebase.database.ktx
+    implementation libs.androidx.room.common
+    implementation libs.androidx.room.ktx
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core

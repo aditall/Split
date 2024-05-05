@@ -78,7 +78,7 @@ class SignUpFragment : Fragment() {
         }
 
         signupViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
-            ImageUtil().laodImage(uri, this, binding.imgAvatar)
+            ImageUtil().laodImage(uri, requireContext(), binding.imgAvatar)
         }
 
         signupViewModel.loginSuccessfull.observe(viewLifecycleOwner) {
