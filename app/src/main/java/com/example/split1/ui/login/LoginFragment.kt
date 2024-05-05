@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.example.split1.MainActivity
 import com.example.split1.databinding.FragmentLoginBinding
 
 import com.example.split1.R
+import com.example.split1.ui.signup.SignUpFragmentDirections
 
 class LoginFragment : Fragment() {
 
@@ -26,7 +28,6 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -34,6 +35,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if ((activity as MainActivity).isLoggedin()) {
+            Navigation.findNavController(binding.root).navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
+        }
+
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
 
@@ -83,7 +89,7 @@ class LoginFragment : Fragment() {
         })
         
         btnSignUp.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.signUpFragment)
+            Navigation.findNavController(it).navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
         }
     }
 

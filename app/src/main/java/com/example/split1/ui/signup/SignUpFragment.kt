@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.split1.MainActivity
 import com.example.split1.R
 import com.example.split1.databinding.FragmentSignUpBinding
+import com.example.split1.ui.ImageUtil
 import com.example.split1.ui.login.LoginViewModel
 import com.example.split1.ui.login.LoginViewModelFactory
 
@@ -58,13 +59,15 @@ class SignUpFragment : Fragment() {
         }
 
         binding.btnBackToMain.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_signUpFragment_to_LoginFragment)
+            Navigation.findNavController(it)
+                .navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
         }
 
         binding.imgAvatar.setOnClickListener {
             (activity as MainActivity).requestPermission.launch(
                 PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
             )
         }
 
@@ -75,9 +78,14 @@ class SignUpFragment : Fragment() {
         }
 
         signupViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
-            Glide.with(this)
-                .load(uri)
-                .into(binding.imgAvatar);
+            ImageUtil().laodImage(uri, requireContext(), binding.imgAvatar)
+        }
+
+        signupViewModel.loginSuccessfull.observe(viewLifecycleOwner) {
+            if (it) {
+                Navigation.findNavController(binding.root)
+                    .navigate(SignUpFragmentDirections.actionSignUpFragmentToHomeFragment())
+            }
         }
 
         return binding.root
