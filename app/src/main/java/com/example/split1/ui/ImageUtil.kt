@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 
 class ImageUtil {
-    fun laodImage(imageUri: Uri?, context: Fragment, imageView: ImageView) {
+    fun laodImage(imageUri: Uri?, context: Context, imageView: ImageView) {
         Glide.with(context)
             .load(imageUri)
             .into(imageView)

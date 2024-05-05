@@ -50,7 +50,7 @@ class EditProfileFragment : Fragment() {
         }
 
         editProfileViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
-            ImageUtil().laodImage(uri, this, binding.imgEditAvatar)
+            ImageUtil().laodImage(uri, requireContext(), binding.imgEditAvatar)
             editProfileViewModel.ImageUri.value = uri
         }
 
