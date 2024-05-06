@@ -1,32 +1,34 @@
-package com.example.split1.adapters
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.split1.R
 import com.example.split1.data.model.RoomItem
-import com.example.split1.data.model.RoomSpace
 import com.example.split1.ui.ImageUtil
+import com.google.firebase.auth.FirebaseAuth
 
 class ItemAdapter(
     private val items: ArrayList<RoomItem>,
-    private val itemClickListener: ItemAdapter.OnItemClickListener? = null
+    private val itemClickListener: ItemClickListener? = null
 ) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
+
+    interface ItemClickListener {
+        fun onDeleteButtonClick(position: Int)
     }
 
     var context: Context? = null
+    private val currentUserUid: String? = FirebaseAuth.getInstance().currentUser?.uid
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.title_image)
         val itemName: TextView = itemView.findViewById(R.id.tvHeading)
         val price: TextView = itemView.findViewById(R.id.tvPrice)
+        val btnDeleteItem: Button = itemView.findViewById(R.id.btnDeleteItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,8 +48,15 @@ class ItemAdapter(
         holder.itemName.text = currentSpace.name
         holder.price.text = currentSpace.price
 
-        holder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick(position)
+        // Check if the current user is the publisher of the item
+        if (currentSpace.publisher == currentUserUid) {
+            holder.btnDeleteItem.visibility = View.VISIBLE
+        } else {
+            holder.btnDeleteItem.visibility = View.GONE
+        }
+
+        holder.btnDeleteItem.setOnClickListener {
+            itemClickListener?.onDeleteButtonClick(position)
         }
     }
 

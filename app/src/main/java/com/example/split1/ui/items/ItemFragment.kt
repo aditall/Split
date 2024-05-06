@@ -1,24 +1,22 @@
 package com.example.split1.ui.items
 
+import ItemAdapter
 import ItemsRepository
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.split1.adapters.ItemAdapter
 import com.example.split1.data.database.items.ItemsDatabase
 import com.example.split1.data.datasource.ItemsLocalSource
 import com.example.split1.data.model.RoomItem
 import com.example.split1.databinding.FragmentItemBinding
-import com.example.split1.ui.ImageUtil
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ItemFragment : Fragment() {
@@ -48,13 +46,12 @@ class ItemFragment : Fragment() {
 
 
         var itemList = MutableLiveData<ArrayList<RoomItem>>()
-        val adapter = ItemAdapter(ArrayList(), object : ItemAdapter.OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                Toast.makeText(
-                    requireContext(),
-                    "Item at position $position clicked",
-                    Toast.LENGTH_SHORT
-                ).show()
+        val adapter = ItemAdapter(ArrayList(), object : ItemAdapter.ItemClickListener {
+            override fun onDeleteButtonClick(position: Int) {
+                itemList.value?.get(position)
+                    ?.let {
+                        firestoreDb.collection("items").document(it.id).delete()
+                    }
             }
         })
         val recyclerView: RecyclerView = binding.itemsRecyclerView
@@ -74,6 +71,22 @@ class ItemFragment : Fragment() {
         binding.btnBackToMain.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(ItemFragmentDirections.actionItemFragmentToHomeFragment())
+        }
+
+        binding.switchItems.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                itemViewModel.getMyItems()
+            } else {
+                itemViewModel.getAllItems()
+            }
+        }
+
+        binding.currencySwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                itemViewModel.convertToUsd()
+            } else {
+                itemViewModel.convertToNis()
+            }
         }
 
         return binding.root
