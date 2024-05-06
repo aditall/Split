@@ -47,11 +47,10 @@ class HomeFragment : Fragment() {
         var spaceList = MutableLiveData<ArrayList<RoomSpace>>()
         val adapter = SpaceAdapter(ArrayList(), object : SpaceAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                Toast.makeText(
-                    requireContext(),
-                    "Item at position $position clicked",
-                    Toast.LENGTH_SHORT
-                ).show()
+                spaceList.value?.get(position)?.let {
+                    Navigation.findNavController(binding.root)
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToItemFragment(it.id))
+                }
             }
         })
         val recyclerView: RecyclerView = binding.spacesRecyclerView
