@@ -63,6 +63,12 @@ class EditProfileFragment : Fragment() {
                 .navigate(EditProfileFragmentDirections.actionEditProfileFragmentToHomeFragment())
         }
 
+        binding.btnLogOut.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            Navigation.findNavController(it)
+                .navigate(EditProfileFragmentDirections.actionEditProfileFragmentToLoginFragment())
+        }
+
         return binding.root
     }
 
