@@ -1,4 +1,4 @@
-package com.example.split1.ui.space
+package com.example.split1.ui.item
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,15 +9,18 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.split1.MainActivity
-import com.example.split1.databinding.FragmentSpaceBinding
+import com.example.split1.databinding.FragmentAddItemBinding
 import com.example.split1.ui.ImageUtil
 
 
-class SpaceFragment : Fragment() {
-    private lateinit var addSpaceViewModel: AddSpaceViewModel
-    private var _binding: FragmentSpaceBinding? = null
+class AddItemFragment : Fragment() {
+    private lateinit var addItemViewModel: AddItemViewModel
+    private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
+
+    val args: AddItemFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,11 +28,14 @@ class SpaceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentSpaceBinding.inflate(inflater, container, false)
-        addSpaceViewModel =
-            ViewModelProvider(this, AddSpaceViewModelFactory())[AddSpaceViewModel::class.java]
+        _binding = FragmentAddItemBinding.inflate(inflater, container, false)
+        addItemViewModel =
+            ViewModelProvider(this, AddItemViewModelFactory())[AddItemViewModel::class.java]
 
-        binding.spaceImg.setOnClickListener {
+
+        val spaceId = args.spaceId
+
+        binding.itemImg.setOnClickListener {
             (activity as MainActivity).requestPermission.launch(
                 PickVisualMediaRequest(
                     ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -39,27 +45,28 @@ class SpaceFragment : Fragment() {
 
         (activity as MainActivity).uriResult.observe(viewLifecycleOwner) { uri ->
             if (uri != null) {
-                addSpaceViewModel.uploadImage(uri)
+                addItemViewModel.uploadImage(uri)
             }
         }
 
-        addSpaceViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
-            ImageUtil().laodImage(uri, requireContext(), binding.spaceImg)
-            addSpaceViewModel.ImageUri.value = uri
+        addItemViewModel.ImageToShow.observe(viewLifecycleOwner) { uri ->
+            ImageUtil().laodImage(uri, requireContext(), binding.itemImg)
+            addItemViewModel.ImageUri.value = uri
         }
 
-        binding.btnAddSpace.setOnClickListener {
-            addSpaceViewModel.addSpace(
-                binding.etSpaceName.text.toString(),
-                binding.etFriendMail.text.toString()
+        binding.btnAddItem.setOnClickListener {
+            addItemViewModel.addItem(
+                binding.etItemName.text.toString(),
+                binding.etPrice.text.toString(),
+                spaceId
             )
             Navigation.findNavController(it)
-                .navigate(SpaceFragmentDirections.actionSpaceFragmentToHomeFragment())
+                .navigate(AddItemFragmentDirections.actionAddItemFragmentToItemFragment(spaceId))
         }
 
         binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
-                .navigate(SpaceFragmentDirections.actionSpaceFragmentToHomeFragment())
+                .navigate(AddItemFragmentDirections.actionAddItemFragmentToItemFragment(spaceId))
         }
 
         return binding.root

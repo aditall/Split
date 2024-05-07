@@ -19,14 +19,14 @@ class ItemsRepository(val firestoreDb: FirebaseFirestore, val itemsLocalSource: 
     private var itemsListenerRegistration: ListenerRegistration? = null
 
     private val _roomItemsLiveData = MutableLiveData<List<RoomItem>>()
-    val roomItemsLiveData: LiveData<List<RoomItem>>
+    val serverItems: LiveData<List<RoomItem>>
         get() = _roomItemsLiveData
 
     init {
-        startListeningForSpacesUpdates(spaceId)
+        startListeningForSpacesUpdates()
     }
 
-    fun startListeningForSpacesUpdates(saceId: String) {
+    fun startListeningForSpacesUpdates() {
         itemsListenerRegistration = firestoreDb.collection(ITEMS_COLLECTION).whereEqualTo("spaceId", spaceId)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
@@ -83,7 +83,11 @@ class ItemsRepository(val firestoreDb: FirebaseFirestore, val itemsLocalSource: 
     }
 
     fun getAllItems(): List<RoomItem> {
-        return itemsLocalSource.getAllItems()
+        return itemsLocalSource.getAllItems(spaceId)
+    }
+
+    fun getMyItems(userId: String): List<RoomItem> {
+        return itemsLocalSource.getMyItems(userId)
     }
 
     fun stopListeningForSpacesUpdates() {

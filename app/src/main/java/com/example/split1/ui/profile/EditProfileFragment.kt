@@ -58,12 +58,24 @@ class EditProfileFragment : Fragment() {
             editProfileViewModel.updateProfile(binding.etEditName.text.toString())
         }
 
-        binding.btnBackToMain.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(EditProfileFragmentDirections.actionEditProfileFragmentToHomeFragment())
         }
 
+        binding.btnLogOut.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            Navigation.findNavController(it)
+                .navigate(EditProfileFragmentDirections.actionEditProfileFragmentToLoginFragment())
+        }
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        editProfileViewModel.ImageToShow.value = FirebaseAuth.getInstance().currentUser?.photoUrl
+        binding.etEditName.setText(FirebaseAuth.getInstance().currentUser?.displayName)
     }
 
     override fun onDestroyView() {

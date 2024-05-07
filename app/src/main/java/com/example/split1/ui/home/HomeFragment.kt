@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
             HomeModelFactory(spaceRepository = spaceRepository)
         )[HomeViewModel::class.java]
 
-
+        homeViewModel.getSpaces()
         var spaceList = MutableLiveData<ArrayList<RoomSpace>>()
         val adapter = SpaceAdapter(ArrayList(), object : SpaceAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -74,6 +74,10 @@ class HomeFragment : Fragment() {
         binding.fbtnAddSpace.addSpaceButton.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(HomeFragmentDirections.actionHomeFragmentToSpaceFragment())
+        }
+
+        spaceRepository.serverSpaces.observe(viewLifecycleOwner) {
+            homeViewModel.getSpaces()
         }
 
         return binding.root

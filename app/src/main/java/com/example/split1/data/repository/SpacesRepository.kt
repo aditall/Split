@@ -19,7 +19,7 @@ class SpaceRepository (val firestoreDb: FirebaseFirestore, val spacesLocalSource
     private var spacesListenerRegistration: ListenerRegistration? = null
 
     private val _roomSpacesLiveData = MutableLiveData<List<RoomSpace>>()
-    val roomSpacesLiveData: LiveData<List<RoomSpace>>
+    val serverSpaces: LiveData<List<RoomSpace>>
         get() = _roomSpacesLiveData
 
     init {

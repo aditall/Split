@@ -20,4 +20,11 @@
     <string name="sign_in">Sign-In</string>
     <string name="password">Password</string>
     <string name="login_success">"Logged in succesfully "</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_items">My Items</string>
+    <string name="add_item">Add Item</string>
+    <string name="item_name">Item name</string>
+    <string name="price">Price</string>
+    <string name="back_to_space">Back to space</string>
 </resources>
