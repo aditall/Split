@@ -5,8 +5,8 @@ import com.example.split1.data.database.items.ItemsDao
 import com.example.split1.data.model.RoomItem
 
 class ItemsLocalSource (private val itemsDao: ItemsDao) {
-    fun getAllItems(): List<RoomItem> {
-        return itemsDao.getAllItems()
+    fun getAllItems(spaceId: String): List<RoomItem> {
+        return itemsDao.getAllItems(spaceId)
     }
 
     fun insert(space: RoomItem) {

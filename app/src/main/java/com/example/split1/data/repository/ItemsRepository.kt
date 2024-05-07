@@ -83,7 +83,7 @@ class ItemsRepository(val firestoreDb: FirebaseFirestore, val itemsLocalSource: 
     }
 
     fun getAllItems(): List<RoomItem> {
-        return itemsLocalSource.getAllItems()
+        return itemsLocalSource.getAllItems(spaceId)
     }
 
     fun getMyItems(userId: String): List<RoomItem> {
