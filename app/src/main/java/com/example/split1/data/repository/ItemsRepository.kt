@@ -19,7 +19,7 @@ class ItemsRepository(val firestoreDb: FirebaseFirestore, val itemsLocalSource: 
     private var itemsListenerRegistration: ListenerRegistration? = null
 
     private val _roomItemsLiveData = MutableLiveData<List<RoomItem>>()
-    val roomItemsLiveData: LiveData<List<RoomItem>>
+    val serverItems: LiveData<List<RoomItem>>
         get() = _roomItemsLiveData
 
     init {

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -25,6 +26,7 @@ class ItemFragment : Fragment() {
     private var _binding: FragmentItemBinding? = null
     private val binding get() = _binding!!
     val args: ItemFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,9 +43,10 @@ class ItemFragment : Fragment() {
         val itemRepository = ItemsRepository(firestoreDb, itemsLocalSource, spaceId)
         itemViewModel = ViewModelProvider(
             this,
-            ItemModelFactory(itemRepository = itemRepository)
+            ItemModelFactory(itemRepository = itemRepository
+            )
         )[ItemViewModel::class.java]
-
+        itemViewModel.getAllItems()
 
         var itemList = MutableLiveData<ArrayList<RoomItem>>()
         val adapter = ItemAdapter(ArrayList(), object : ItemAdapter.ItemClickListener {
@@ -71,6 +74,16 @@ class ItemFragment : Fragment() {
         itemViewModel.roomItemsLiveData.observe(viewLifecycleOwner) {
             itemList.value = ArrayList(it)
             adapter.submitList(itemList.value!!)
+            itemViewModel.calculateSum()
+        }
+
+        itemRepository.serverItems.observe(viewLifecycleOwner) {
+            if(binding.switchItems.isChecked) {
+                itemViewModel.getMyItems()
+            }
+            else {
+                itemViewModel.getAllItems()
+            }
         }
 
         binding.fbtnAddItem.addSpaceButton.setOnClickListener {
@@ -97,6 +110,10 @@ class ItemFragment : Fragment() {
             } else {
                 itemViewModel.convertToNis()
             }
+        }
+
+        itemViewModel.sum.observe(viewLifecycleOwner) {
+            binding.tvSum.text = it.toString()
         }
 
         return binding.root

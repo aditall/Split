@@ -1,5 +1,6 @@
 package com.example.split1.data.database.items
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,6 +22,6 @@ interface ItemsDao {
     @Query("SELECT * FROM items")
     fun getAllItems(): List<RoomItem>
 
-    @Query("SELECT * FROM items WHERE id = :creator")
+    @Query("SELECT * FROM items WHERE publisher = :creator")
     fun getMyItems(creator: String): List<RoomItem>
 }
