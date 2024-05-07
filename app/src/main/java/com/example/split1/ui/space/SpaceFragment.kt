@@ -57,7 +57,7 @@ class SpaceFragment : Fragment() {
                 .navigate(SpaceFragmentDirections.actionSpaceFragmentToHomeFragment())
         }
 
-        binding.btnBackToMain.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(SpaceFragmentDirections.actionSpaceFragmentToHomeFragment())
         }

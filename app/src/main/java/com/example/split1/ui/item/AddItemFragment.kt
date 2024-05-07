@@ -64,7 +64,7 @@ class AddItemFragment : Fragment() {
                 .navigate(AddItemFragmentDirections.actionAddItemFragmentToItemFragment(spaceId))
         }
 
-        binding.btnBackToSpace.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(AddItemFragmentDirections.actionAddItemFragmentToItemFragment(spaceId))
         }

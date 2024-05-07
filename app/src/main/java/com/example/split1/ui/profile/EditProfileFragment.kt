@@ -58,7 +58,7 @@ class EditProfileFragment : Fragment() {
             editProfileViewModel.updateProfile(binding.etEditName.text.toString())
         }
 
-        binding.btnBackToMain.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(EditProfileFragmentDirections.actionEditProfileFragmentToHomeFragment())
         }

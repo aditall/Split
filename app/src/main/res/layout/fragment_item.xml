@@ -30,7 +30,7 @@
             tools:listitem="@layout/item_list" />
 
         <ImageButton
-            android:id="@+id/btnBackToMain"
+            android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="62dp"
             android:layout_marginStart="8dp"

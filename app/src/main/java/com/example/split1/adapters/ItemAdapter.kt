@@ -3,6 +3,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -19,6 +20,7 @@ class ItemAdapter(
 
     interface ItemClickListener {
         fun onDeleteButtonClick(position: Int)
+        fun onEditButtonClick(position: Int)
     }
 
     var context: Context? = null
@@ -29,6 +31,7 @@ class ItemAdapter(
         val itemName: TextView = itemView.findViewById(R.id.tvHeading)
         val price: TextView = itemView.findViewById(R.id.tvPrice)
         val btnDeleteItem: Button = itemView.findViewById(R.id.btnDeleteItem)
+        val btnEditItem: ImageButton = itemView.findViewById(R.id.btnEditItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,12 +54,18 @@ class ItemAdapter(
         // Check if the current user is the publisher of the item
         if (currentSpace.publisher == currentUserUid) {
             holder.btnDeleteItem.visibility = View.VISIBLE
+            holder.btnEditItem.visibility = View.VISIBLE
         } else {
             holder.btnDeleteItem.visibility = View.GONE
+            holder.btnEditItem.visibility = View.GONE
         }
 
         holder.btnDeleteItem.setOnClickListener {
             itemClickListener?.onDeleteButtonClick(position)
+        }
+
+        holder.btnEditItem.setOnClickListener {
+            itemClickListener?.onEditButtonClick(position)
         }
     }
 

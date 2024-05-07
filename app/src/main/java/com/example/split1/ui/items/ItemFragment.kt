@@ -53,6 +53,16 @@ class ItemFragment : Fragment() {
                         firestoreDb.collection("items").document(it.id).delete()
                     }
             }
+
+            override fun onEditButtonClick(position: Int) {
+                itemList.value?.get(position)?.let { item ->
+                    val action = ItemFragmentDirections.actionItemFragmentToEditItemFragment(
+                        spaceId = spaceId,
+                        itemId = item.id
+                    )
+                    Navigation.findNavController(requireView()).navigate(action)
+                }
+            }
         })
         val recyclerView: RecyclerView = binding.itemsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -68,7 +78,7 @@ class ItemFragment : Fragment() {
                 .navigate(ItemFragmentDirections.actionItemFragmentToAddItemFragment(spaceId))
         }
 
-        binding.btnBackToMain.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(ItemFragmentDirections.actionItemFragmentToHomeFragment())
         }

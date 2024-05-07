@@ -89,6 +89,9 @@
         <action
             android:id="@+id/action_itemFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_itemFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -101,6 +104,19 @@
             app:destination="@id/itemFragment" />
         <argument
             android:name="spaceId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.example.split1.ui.item.EditItemFragment"
+        android:label="fragment_edit_item"
+        tools:layout="@layout/fragment_edit_item" >
+        <action
+            android:id="@+id/action_editItemFragment_to_itemFragment"
+            app:destination="@id/itemFragment" />
+        <argument android:name="spaceId"
+            app:argType="string" />
+        <argument android:name="itemId"
             app:argType="string" />
     </fragment>
 

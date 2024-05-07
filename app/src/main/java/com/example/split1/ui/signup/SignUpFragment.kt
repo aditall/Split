@@ -58,7 +58,7 @@ class SignUpFragment : Fragment() {
             )
         }
 
-        binding.btnBackToMain.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             Navigation.findNavController(it)
                 .navigate(SignUpFragmentDirections.actionSignUpFragmentToLoginFragment())
         }

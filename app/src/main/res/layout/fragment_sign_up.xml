@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.SignUpFragment">
     <ImageButton
-        android:id="@+id/btnBackToMain"
+        android:id="@+id/btnBack"
         android:layout_width="74dp"
         android:layout_height="71dp"
         android:layout_marginStart="32dp"
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackToMain" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
     <EditText
         android:id="@+id/etPassword"
