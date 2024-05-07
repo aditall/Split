@@ -75,6 +75,9 @@ class ItemFragment : Fragment() {
             itemList.value = ArrayList(it)
             adapter.submitList(itemList.value!!)
             itemViewModel.calculateSum()
+            if (binding.currencySwitch.isChecked){
+                itemViewModel.convertToUsd()
+            }
         }
 
         itemRepository.serverItems.observe(viewLifecycleOwner) {
