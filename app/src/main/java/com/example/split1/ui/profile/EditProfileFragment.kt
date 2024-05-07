@@ -72,6 +72,12 @@ class EditProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        editProfileViewModel.ImageToShow.value = FirebaseAuth.getInstance().currentUser?.photoUrl
+        binding.etEditName.setText(FirebaseAuth.getInstance().currentUser?.displayName)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
